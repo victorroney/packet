@@ -1,0 +1,141 @@
+#!/bin/bash
+
+resposta="S"
+
+echo " "
+echo "ATUALIZANDO PACOTES...."
+echo " "
+sleep 3
+
+touch log_instalacao.txt
+
+apt update && apt upgrade -y
+
+apt install wget curl -y
+
+clear
+echo ""
+echo "Instalando o pacote net-tools"
+echo ""
+apt install net-tools -y
+
+clear
+echo ""
+echo "Instalar o pacote do instalador tasksel"
+apt install tasksel -y
+clear
+
+echo "Deseja instalar o spotify ? <S>"
+read resp
+
+declare -u resposta=${resp}
+
+
+if [ $resposta == "S" ]
+then
+	
+	curl -sS https://download.spotify.com/debian/pubkey_0D811D58.gpg | sudo apt-key add -
+	echo ""
+	echo "criando e editando o arquivo  /etc/apt/sources.list.d/spotify.list"
+	sleep 3
+
+
+ 	echo "deb http://repository.spotify.com stable non-free" | tee /etc/apt/sources.list.d/spotify.list
+	apt-get update && apt-get install spotify-client
+	
+	clear
+	echo "Spotify Instalado ! "
+	sleep 3
+	clear
+
+
+else 
+	echo "Sem spotify"
+	sleep 3
+	clear
+	
+
+fi
+
+
+
+echo "Deseja configurar seu teclado ? <S> "
+read resp
+
+declare -u resposta=${resp}
+
+if [ $resposta == "S" ]
+then
+
+        dpkg-reconfigure keyboard-configuration
+        clear
+
+else 
+        echo "Sem configurar o teclado"
+
+fi
+
+
+echo "Escolha uma interface gráfica"
+echo "[1] - kde plasma"
+echo "[2] - gnome-desktop environment"
+echo "[3] - xfce4-desktop environment"
+echo "[4] - Não instalar e encerrar o programa"
+while :
+do 
+        read escolha
+        case $escolha in
+                1)
+                        apt-get install kde-full kdm kde-l10n-ptbr
+                        break
+                        ;;
+                2)
+                        tasksel install desktop gnome-desktop
+
+
+                        break
+                        ;;
+
+                3)
+                        apt install task-xfce-desktop
+                        break
+                        ;;
+                4) 
+                        echo "não instalar"
+                        break
+                        ;;
+                esac
+done
+clear
+
+echo "Deseja reiniciar a maquina ? <S>"
+read resp
+
+declare -u resposta=${resp}
+
+
+if [ $resposta == "S" ]
+then
+
+	echo "O seu computador será reiniciado em 5"
+	sleep 1
+	clear
+	echo "O seu computador será reiniciado em 4"
+	sleep 1
+	clear
+	echo "O seu computador será reiniciado em 3"
+	sleep 1
+	clear
+	echo "O seu computador será reiniciado em 2"
+	sleep 1
+	clear
+	echo "O seu computador será reiniciado em 1"
+	sleep 1
+	echo "reboot" 
+
+else 
+	echo "Vejo você em breve!"
+fi 
+
+
+
