@@ -1,4 +1,4 @@
-# Meu escript de instalação Linux 
+# Meu script de instalação Linux 
 
 Todo usuário linux tem um script de instalação, estou compartilhando o meu para distribuições baseadas no debian
 
