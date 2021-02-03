@@ -7,21 +7,40 @@ echo "ATUALIZANDO PACOTES...."
 echo " "
 sleep 3
 
-touch log_instalacao.txt
+touch READ-ME 
+
+
+echo "Meu Script de Instalação Linux" > READ-ME
+echo "Todo usuário linux tem um script de instalação, estou compartilhando o meu para distribuições linux">> READ-ME
+echo "" >> READ-ME
+echo "PACOTES">> READ-ME 
+echo "">> READ-ME
+echo "* instalação de interface gráfica (xfce4, gnome, kde)">> READ-ME
+echo "* net-tools">> READ-ME
+echo "* spotify">> READ-ME
+echo "* Google">> READ-ME
+echo "* Pacotes secundários wget, curl, snapd">> READ-ME
 
 apt update && apt upgrade -y
 
 apt install wget curl -y
+clear
+echo "instalar o gerenciador de pacote snap"
+sleep 3
+
+apt install snapd -y
 
 clear
 echo ""
 echo "Instalando o pacote net-tools"
+sleep 3
 echo ""
 apt install net-tools -y
 
 clear
 echo ""
 echo "Instalar o pacote do instalador tasksel"
+sleep 3
 apt install tasksel -y
 clear
 
@@ -58,6 +77,30 @@ else
 fi
 
 
+echo "Deseja instalar o google chrome  ? <S>"
+read resp
+
+declare -u resposta=${resp}
+
+
+if [ $resposta == "S" ]
+then
+
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        dpkg -i google-chrome-stable_current_amd64.deb
+	clear
+	echo "Google Instalado !"
+
+
+else 
+        echo "Sem google chrome"
+        sleep 3
+        clear
+
+
+fi
+
+
 
 echo "Deseja configurar seu teclado ? <S> "
 read resp
@@ -87,11 +130,20 @@ do
         case $escolha in
                 1)
                         apt-get install kde-full kdm kde-l10n-ptbr
+			taskel install laptop
+			clear
+			echo "Habilitando o KDE para iniciar após o boot"
+			sleep 3
+			systemctl set-default graphical.target
                         break
                         ;;
                 2)
                         tasksel install desktop gnome-desktop
-
+			tasksel install laptop
+			clear
+			echo "Habilitando o gnome para iniciar após o boot"
+			sleep 3
+			systemctl set-default graphical.target
 
                         break
                         ;;
